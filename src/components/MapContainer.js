@@ -4,6 +4,8 @@ import styled from "styled-components";
 const MapView = styled.div`
   width: 500px;
   height: 500px;
+  position: absolute;
+  top: 0;
 `;
 
 // window 전역 객체로 들어간 kakao 객체 변수로 뽑기.
@@ -19,7 +21,6 @@ const MapContainer = memo(() => {
       level: 3,
     };
     // 지도를 렌더링할 div를 ref로 뽑아 변수에 담기
-
     const map = new kakao.maps.Map(container, options);
 
     // map에 컨트롤러 추가, 컨트롤러 위치는 오른쪽이다.

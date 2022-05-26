@@ -92,7 +92,7 @@ const LoginCss = styled.div`
 `;
 
 const Login = memo(() => {
-  React.useEffect(() => console.clear(), []);
+  // React.useEffect(() => console.clear(), []);
 
   const { data } = useSelector((state) => state.login);
   const dispatch = useDispatch();
