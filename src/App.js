@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { Routes, Route, NavLink } from "react-router-dom";
-// import MapContainer from "./components/MapContainer";
+//import MapContainer from "./components/MapContainer";
 import styled from "styled-components";
 
 import Login from "./pages/Login";
@@ -46,20 +46,18 @@ const AppCss = styled.div`
 const App = memo(() => {
   return (
     <AppCss>
-      {/* <Login /> */}
       {/* <MapContainer /> */}
-      {/* <Join /> */}
       <nav className="titleBox">
-        <NavLink className="sign" to="/signin">
+        <NavLink className="sign" to="/">
           Sign In
         </NavLink>
         <NavLink className="sign" to="/signup">
-          Sign In
+          Sign Up
         </NavLink>
       </nav>
       <Routes>
-        <Route path="/signin" exapt element={<Login />} />
-        <Route path="/signup" exapt element={<Join />} />
+        <Route path="/" exact element={<Login />} />
+        <Route path="/signup" element={<Join />} />
       </Routes>
     </AppCss>
   );

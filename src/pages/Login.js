@@ -81,16 +81,13 @@ const LoginCss = styled.div`
 const Login = memo(() => {
   React.useEffect(() => console.clear(), []);
 
-  const { loading } = useSelector((state) => state.login);
+  const { data, loading } = useSelector((state) => state.login);
   const dispatch = useDispatch();
-  const [iptValue, setIptValue] = React.useState();
+  const [iptId, setIptId] = React.useState();
 
   React.useEffect(() => {
-    for(const key in iptValue){
-      console.log(key + ": " + iptValue[key]);
-      
-    }
-  }, [iptValue]);
+    // console.log(iptId.id,iptId.pw);
+  }, [iptId]);
 
   React.useEffect(() => {
     dispatch(getInfo());
@@ -117,7 +114,7 @@ const Login = memo(() => {
         )
     }),
     onSubmit: (values) => {
-      setIptValue(values);
+      setIptId({...values});
     }
   });
 
@@ -129,7 +126,7 @@ const Login = memo(() => {
           <div className="inputBox">
             <label htmlFor="id"><strong>아이디</strong></label>
             
-            {/* formik은 namd 값을 활용하며, onBlur...Cahge,submit 등 이벤트들은 {...formik.getFieldProps("name값")}로 묶어주면 자동으로 기능한다. */}
+            {/* formik은 name 값을 활용하며, onBlur...Cahge,submit 등 이벤트들은 {...formik.getFieldProps("name값")}로 묶어주면 자동으로 기능한다. */}
             {/* <input type='text' id='id' name='id' onBlur={formik.handleBlur} onChange={formik.handleChange} /> */}
             <input className="input" type="text" id="id" name="id" {...formik.getFieldProps("id")} placeholder="아이디를 입력해주세요." />
             {formik.touched.id && (<span className="alert">{formik.errors.id}</span>)}
