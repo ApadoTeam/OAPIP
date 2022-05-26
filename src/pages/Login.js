@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import styled from "styled-components";
 import { NavLink } from 'react-router-dom';
+import Spinner from "../components/Spinner";
 
 const LoginCss = styled.div`
   width: 100%;
@@ -89,7 +90,7 @@ const LoginCss = styled.div`
     }
     .btnBox {
       width: 400px;
-      height: 100%;
+      height: auto;
       margin: 30px auto;
       button {
         width: 100%;
@@ -113,14 +114,12 @@ const LoginCss = styled.div`
 const Login = memo(() => {
   // React.useEffect(() => console.clear(), []);
 
-  const { data } = useSelector((state) => state.login);
+  const { data, loading, error } = useSelector((state) => state.login);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     dispatch(getInfo());
   }, [dispatch]);
-
-  console.log(data);
 
   const formik = useFormik({
     initialValues: {
@@ -140,21 +139,16 @@ const Login = memo(() => {
         .matches(
           /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/,
           "8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요."
-        ),
-      // email: Yup.string()
-      //   .required("필수 정보입니다.")
-      //   .matches(
-      //     /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/,
-      //     "이메일 주소를 다시 확인해주세요."
-      //   ),
+        )
     }),
-    onSubmit: (values) => {
-      console.log(values);
-    },
+    onSubmit: (values, data) => {
+      console.log(values, data);
+    }
   });
 
   return (
     <LoginCss>
+      <Spinner visivle={loading}/>
       <nav className="titleBox">
         <NavLink className="sign" to='/singin'>Sign In</NavLink>
         <NavLink className="sign" to='/singup'>Sign Up</NavLink>
@@ -171,14 +165,9 @@ const Login = memo(() => {
           </div>
           <div className="inputBox">
             <label htmlFor="pw"><strong>비밀번호</strong></label>
-            <input className="input" type="text" id="pw" name="pw" {...formik.getFieldProps("pw")} placeholder="비밀번호를 입력해주세요." />
+            <input className="input" type="password" id="pw" name="pw" {...formik.getFieldProps("pw")} placeholder="비밀번호를 입력해주세요." />
             {formik.touched.pw && (<span className="alert">{formik.errors.pw}</span>)}
           </div>
-          {/* <div className="inputBox">
-            <label htmlFor="email"><strong>이메일</strong></label>
-            <input className="input" type="text" id="email" name="email" {...formik.getFieldProps("email")} placeholder="이메일을 입력해주세요." />
-            {formik.touched.email && (<span className="alert">{formik.errors.email}</span>)}
-          </div> */}
         </div>
         <div className="btnBox">
             <button className="input" type="submit">
