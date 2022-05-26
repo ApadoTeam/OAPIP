@@ -4,45 +4,12 @@ import { getInfo } from "../Slices/LoginSlice";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import styled from "styled-components";
-import { NavLink } from 'react-router-dom';
 import Spinner from "../components/Spinner";
 
 const LoginCss = styled.div`
   width: 100%;
   height: 100%;
   overflow: hidden;
-  .titleBox {
-    width: 480px;
-    height: 50px;
-    margin: 0 auto;
-    margin-top: 200px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    .sign {
-      display: inline-block;
-      width: 100%;
-      height: 100%;
-      font-size: 30px;
-      font-weight: 800;
-      line-height: 50px;
-      color: #555;
-      text-align: center;
-      text-decoration: none;
-      &:first-child {
-        background-color: aliceblue;
-        border-right: 1px solid #ccc;
-      }
-      &:hover {
-        background-color: aliceblue;
-        color: black;
-      }
-    }
-  }
   .form {
     width: 480px;
     height: 350px;
@@ -112,10 +79,18 @@ const LoginCss = styled.div`
 `;
 
 const Login = memo(() => {
-  // React.useEffect(() => console.clear(), []);
+  React.useEffect(() => console.clear(), []);
 
-  const { data, loading, error } = useSelector((state) => state.login);
+  const { loading } = useSelector((state) => state.login);
   const dispatch = useDispatch();
+  const [iptValue, setIptValue] = React.useState();
+
+  React.useEffect(() => {
+    for(const key in iptValue){
+      console.log(key + ": " + iptValue[key]);
+      
+    }
+  }, [iptValue]);
 
   React.useEffect(() => {
     dispatch(getInfo());
@@ -141,18 +116,14 @@ const Login = memo(() => {
           "8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요."
         )
     }),
-    onSubmit: (values, data) => {
-      console.log(values, data);
+    onSubmit: (values) => {
+      setIptValue(values);
     }
   });
 
   return (
     <LoginCss>
       <Spinner visivle={loading}/>
-      <nav className="titleBox">
-        <NavLink className="sign" to='/singin'>Sign In</NavLink>
-        <NavLink className="sign" to='/singup'>Sign Up</NavLink>
-      </nav>
       <form className="form" onSubmit={formik.handleSubmit}>
         <div className="loginBox" >
           <div className="inputBox">
