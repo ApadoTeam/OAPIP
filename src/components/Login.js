@@ -5,12 +5,46 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import styled from "styled-components";
 import Spinner from "./Spinner";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from 'react-router-dom';
 
 const LoginCss = styled.div`
   width: 100%;
   height: 100%;
   overflow: hidden;
+  .titleBox {
+    width: 480px;
+    height: 50px;
+    margin: 0 auto;
+    margin-top: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    .sign {
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      font-size: 30px;
+      font-weight: 800;
+      line-height: 50px;
+      color: #555;
+      text-align: center;
+      text-decoration: none;
+      &:first-child {
+        border-right: 1px solid #ccc;
+      }
+      &:hover {
+        background-color: aliceblue;
+        color: black;
+      }
+    }
+    .active {
+      background-color: aliceblue;
+    }
+  }
   .form {
     width: 480px;
     height: 350px;
@@ -80,21 +114,26 @@ const LoginCss = styled.div`
 `;
 
 const Login = memo(() => {
+  // 첫 렌더링 시 콘솔 초기화
   React.useEffect(() => console.clear(), []);
   const { data, loading } = useSelector((state) => state.login);
   const dispatch = useDispatch();
 
+  // redux Store에 액션 호출
   React.useEffect(() => {
     dispatch(getInfo());
   }, [dispatch]);
 
+  // 페이지 이동 hook
   const navigate = useNavigate();
 
-  const login = React.useCallback((values) => {
+  /** 로그인 함수 */ 
+  // 전달받은 입력 값과, 서버 값과 비교 후 일치 시 페이지 이동
+  const login = ((values) => {
     if(data.id === values.id) {
       if (data.pw === values.pw) {
         alert("로그인 성공");
-        navigate("/MapContainer");
+        navigate('/mapcontainer', {replace:true});
       } else {
         alert("비밀번호가 틀립니다.");
         console.log(data.pw, values.pw);
@@ -102,8 +141,9 @@ const Login = memo(() => {
     } else {
       alert("아이디가 틀립니다.");
     }
-  }, [data.id, data.pw, navigate]);
+  });
 
+  // 입력 시 유효성 검사
   const formik = useFormik({
     initialValues: {
       id: "",
@@ -123,6 +163,7 @@ const Login = memo(() => {
           "8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요."
         )
     }),
+    // 로그인 버튼 클릭 시 submit values 전달하며 login함수 실행.
     onSubmit: (values) => {
       login(values);
     }
@@ -131,11 +172,18 @@ const Login = memo(() => {
   return (
     <LoginCss>
       <Spinner visivle={loading}/>
+      <nav className="titleBox">
+        <NavLink className="sign" to="/">
+          Sign In
+        </NavLink>
+        <NavLink className="sign" to="/signup">
+          Sign Up
+        </NavLink>
+      </nav>
       <form className="form" onSubmit={formik.handleSubmit}>
         <div className="loginBox" >
           <div className="inputBox">
             <label htmlFor="id"><strong>아이디</strong></label>
-            
             {/* formik은 name 값을 활용하며, onBlur...Cahge,submit 등 이벤트들은 {...formik.getFieldProps("name값")}로 묶어주면 자동으로 기능한다. */}
             {/* <input type='text' id='id' name='id' onBlur={formik.handleBlur} onChange={formik.handleChange} /> */}
             <input className="input" type="text" id="id" name="id" {...formik.getFieldProps("id")} placeholder="아이디를 입력해주세요." />
