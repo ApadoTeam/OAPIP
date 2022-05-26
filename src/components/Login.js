@@ -4,7 +4,8 @@ import { getInfo } from "../Slices/LoginSlice";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import styled from "styled-components";
-import Spinner from "../components/Spinner";
+import Spinner from "./Spinner";
+import { useNavigate } from "react-router-dom";
 
 const LoginCss = styled.div`
   width: 100%;
@@ -80,24 +81,33 @@ const LoginCss = styled.div`
 
 const Login = memo(() => {
   React.useEffect(() => console.clear(), []);
-
   const { data, loading } = useSelector((state) => state.login);
   const dispatch = useDispatch();
-  const [iptId, setIptId] = React.useState();
-
-  React.useEffect(() => {
-    // console.log(iptId.id,iptId.pw);
-  }, [iptId]);
 
   React.useEffect(() => {
     dispatch(getInfo());
   }, [dispatch]);
 
+  const navigate = useNavigate();
+
+  const login = React.useCallback((values) => {
+    if(data.id === values.id) {
+      if (data.pw === values.pw) {
+        alert("로그인 성공");
+        navigate("/MapContainer");
+      } else {
+        alert("비밀번호가 틀립니다.");
+        console.log(data.pw, values.pw);
+      }
+    } else {
+      alert("아이디가 틀립니다.");
+    }
+  }, [data.id, data.pw, navigate]);
+
   const formik = useFormik({
     initialValues: {
       id: "",
-      pw: "",
-      email: "",
+      pw: ""
     },
     validationSchema: Yup.object({
       id: Yup.string()
@@ -114,7 +124,7 @@ const Login = memo(() => {
         )
     }),
     onSubmit: (values) => {
-      setIptId({...values});
+      login(values);
     }
   });
 
