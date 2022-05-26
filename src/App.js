@@ -11,7 +11,7 @@ const AppCss = styled.div`
     width: 480px;
     height: 50px;
     margin: 0 auto;
-    margin-top: 200px;
+    margin-top: 100px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
