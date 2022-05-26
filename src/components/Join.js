@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import styled from "styled-components";
 import { NavLink } from 'react-router-dom';
 
-const LoginCss = styled.div`
+const JoinCss = styled.div`
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -91,7 +91,7 @@ const LoginCss = styled.div`
 }
 `;
 
-const Login = memo(() => {
+const Join = memo(() => {
   // React.useEffect(() => console.clear(), []);
 
     const { data } = useSelector((state) => state.login);
@@ -144,7 +144,7 @@ const Login = memo(() => {
     });
 
     return (
-        <LoginCss>
+        <JoinCss>
         <nav className="titleBox">
             <NavLink className="sign" to='/singin'>Sign In</NavLink>
             <NavLink className="sign" to='/singup'>Sign Up</NavLink>
@@ -179,8 +179,8 @@ const Login = memo(() => {
                 </button>
             </div>
         </form>
-        </LoginCss>
+        </JoinCss>
     );
 });
 
-export default Login;
+export default Join;
