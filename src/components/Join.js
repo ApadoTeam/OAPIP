@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import styled from "styled-components";
 import { NavLink } from 'react-router-dom';
+import { postJoin } from "../Slices/JoinSlice";
 
 const JoinCss = styled.div`
   width: 100%;
@@ -118,7 +119,7 @@ const Join = memo(() => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    dispatch(getInfo());
+    dispatch(postJoin());
   }, [dispatch]);
 
   console.log(data);
@@ -155,7 +156,7 @@ const Join = memo(() => {
         ),
     }),
     onSubmit: (values) => {
-      console.log(values);
+      // console.log(values);
     },
   });
 
