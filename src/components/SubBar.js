@@ -1,8 +1,9 @@
-import React,{useState,useCallback} from 'react';
+import React from 'react'
 import styled from 'styled-components';
-import { RiZoomInLine,RiMapPin2Fill} from "react-icons/ri";
+import {RiArrowDropRightLine, RiArrowDropLeftLine, RiZoomInLine,RiMapPin2Fill} from "react-icons/ri";
 
 const MainSideBar = styled.div`
+      margin-left: 30px;
       position: relative;
       width: 300px;
       height: 100hv;
@@ -66,14 +67,22 @@ const MainSideBar = styled.div`
 
   .mainContainer{
     width: 300px;
-    height: 100%;
+    height: 700px;
     background-color: #F0F8FF;
     position: absolute;
-    top: 0;
+    top: 99px;
+    display: flex;
+    justify-content: space-evenly;
+
+    .searchForm{
+    padding: 20px 0;
+
+    }
   }
 
   .footer{
     position: absolute;
+    
     font-size: 2px;
     background-color: #eee;
     width: 300px;
@@ -85,22 +94,14 @@ const MainSideBar = styled.div`
       color: gray;
     }
   }
-
 `;
 
-
-const SideBar = () => {
-// 사이드바 오픈을 위한 useState 
-  const [isOpen, setIsOpen] = useState(+true);
-  const ClickBtn = useCallback((e)=>{
-    setIsOpen(isOpen => !isOpen);},
-  [])
+const SubBar = () => {
+  // 사이드바 오픈을 위한 useState 
+  const [isOpen, setIsOpen] = React.useState(+true);
 
   return (
-    <>
-    <img className='hidden-icon'  src={isOpen ? isOpen :
-     require('../asset/img/square-blue.png')} alt='click' onClick={ClickBtn}/>
-
+    <div>
       <MainSideBar className={isOpen ? ('OnSide'):('')}>
           <div  className='header'>
                 <div className='header-container'>
@@ -130,12 +131,11 @@ const SideBar = () => {
         <li>고객센터</li>
         <li>지도 정보 수정</li>
         <li>신규 장소 등록</li>
-        s
       </ul>
     </div>
-    </MainSideBar> 
-    </>
+    </MainSideBar>
+    </div>
   )
 }
 
-export default SideBar;
+export default SubBar;
