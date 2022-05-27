@@ -3,10 +3,11 @@ import styled from "styled-components";
 import SideBar from "../components/SideBar";
 
 const MapView = styled.div`
-  width: 100%;
-  height: 100%;
+  width: 500PX;
+  height: 500PX;
   position: absolute;
   top: 0;
+  right: 0;
 `;
 
 // window 전역 객체로 들어간 kakao 객체 변수로 뽑기.
@@ -32,7 +33,8 @@ const MapContainer = memo(() => {
 
   return (
     <>
-      <MapView ref={myMap}></MapView>
+      <MapView ref={myMap}>
+      </MapView>
       <SideBar />
     </>
   );
