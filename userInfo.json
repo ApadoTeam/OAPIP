@@ -1,7 +1,19 @@
 {
   "userInfo": {
     "id": "kccsm",
-    "pw": "kccsm123-",
+    "pw": "kcc123-",
     "email": "kccsm@gmail.com"
-  }
+  },
+  "comment": [
+    {
+      "id": 1,
+      "text": "test1",
+      "checked": false
+    },
+    {
+      "id": 2,
+      "text": "test2",
+      "checked": false
+    }
+  ]
 }
