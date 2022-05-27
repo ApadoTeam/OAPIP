@@ -130,6 +130,7 @@ const SideBar = () => {
         <li>고객센터</li>
         <li>지도 정보 수정</li>
         <li>신규 장소 등록</li>
+        s
       </ul>
     </div>
     </MainSideBar> 
