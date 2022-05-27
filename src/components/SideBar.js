@@ -91,10 +91,10 @@ const MainSideBar = styled.div`
 
 const SideBar = () => {
 // 사이드바 오픈을 위한 useState 
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(+true);
   const ClickBtn = useCallback((e)=>{
     setIsOpen(isOpen => !isOpen);},
-  [isOpen])
+  [])
 
   return (
     <>

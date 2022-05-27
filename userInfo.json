@@ -1,5 +1,16 @@
 {
-  "userInfo": {},
+  "userInfo": [
+    {
+      "id": "kccsm",
+      "pw": "kccsm123-",
+      "email": "kccsm@gmail.com"
+    },
+    {
+      "id": "apado",
+      "pw": "apado123-",
+      "email": "apado@gmail.com"
+    }
+  ],
   "comment": [
     {
       "id": 1,

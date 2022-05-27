@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import LoginSlice from "./Slices/LoginSlice";
+import UserInfoSlice from "./Slices/UserInfoSlice";
 import CommentSlice from "./Slices/CommentSlice";
 
 const Store = configureStore({
   reducer: {
-    login: LoginSlice,
+    userInfo: UserInfoSlice,
     comment: CommentSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false}),

@@ -6,7 +6,7 @@
 
 import React, { memo } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getInfo } from "../Slices/LoginSlice";
+import { getInfo } from "../Slices/UserInfoSlice";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import styled from "styled-components";
@@ -45,6 +45,8 @@ const LoginCss = styled.div`
       &:hover {
         background-color: aliceblue;
         color: black;
+        font-size: 31px;
+        transition: all 0.2s;
       }
     }
     .active {
@@ -113,6 +115,8 @@ const LoginCss = styled.div`
         cursor: pointer;
         &:hover {
           background-color: black;
+          font-size: 21px;
+          transition: all 0.2s;
         }
       }
     }
@@ -122,7 +126,7 @@ const LoginCss = styled.div`
 const Login = memo(() => {
   // 첫 렌더링 시 콘솔 초기화
   React.useEffect(() => console.clear(), []);
-  const { data, loading } = useSelector((state) => state.login);
+  const { data, loading } = useSelector((state) => state.userInfo);
   const dispatch = useDispatch();
 
   // redux Store에 액션 호출
@@ -132,22 +136,6 @@ const Login = memo(() => {
 
   // 페이지 이동 hook
   const navigate = useNavigate();
-
-  /** 로그인 함수 */ 
-  // 전달받은 입력 값과, 서버 값과 비교 후 일치 시 페이지 이동
-  const login = ((values) => {
-    if(data.id === values.id) {
-      if (data.pw === values.pw) {
-        alert("로그인 성공");
-        navigate('/mapcontainer', {replace:true});
-      } else {
-        alert("비밀번호가 틀립니다.");
-        console.log(data.pw, values.pw);
-      }
-    } else {
-      alert("아이디가 틀립니다.");
-    }
-  });
 
   // 입력 시 유효성 검사
   const formik = useFormik({
@@ -169,11 +157,23 @@ const Login = memo(() => {
           "8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요."
         )
     }),
-    // 로그인 버튼 클릭 시 submit values 전달하며 login함수 실행.
+    // 로그인 버튼 클릭 시 발생 이벤트
     onSubmit: (values) => {
-      login(values);
+      let compare = (data.find((d) => {
+        return d.id === values.id;
+      }))
+      console.log(compare);
+      if (compare !== undefined) {
+        (compare.id === values.id && compare.pw === values.pw) &&
+        (window.alert("로그인 성공") (navigate("/mapcontainer", { replace: true }))) 
+      } else {
+        window.alert("아이디 비밀번호를 다시 한번 확인해주세요.");
+        console.log(compare.id, compare.pw);
+      }
     }
   });
+
+
 
   return (
     <LoginCss>

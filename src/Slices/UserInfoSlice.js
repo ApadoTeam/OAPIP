@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
 
-export const getInfo = createAsyncThunk('login/getInfo', async (payload, { rejectWithValue }) => {
+export const getInfo = createAsyncThunk('userInfo/getInfo', async (payload, { rejectWithValue }) => {
   let result = null;
 
   try {
@@ -13,8 +13,8 @@ export const getInfo = createAsyncThunk('login/getInfo', async (payload, { rejec
   return result;
 });
 
-const LoginSlice = createSlice({
-  name: 'login',
+const UserInfoSlice = createSlice({
+  name: 'userInfo',
   initialState: {
     data: null,
     loading: false,
@@ -45,4 +45,4 @@ const LoginSlice = createSlice({
   },
 });
 
-export default LoginSlice.reducer;
+export default UserInfoSlice.reducer;
