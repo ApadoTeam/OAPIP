@@ -1,11 +1,33 @@
 import React,{useState,useCallback} from 'react';
 import styled from 'styled-components';
 import { RiZoomInLine,RiMapPin2Fill} from "react-icons/ri";
+import Comment from './Comment';
 
+const SideSlice = styled.div`
+width: 100%;
+height: 100vh;
+display: flex;
+position: relative;
+z-index: 9999999;
+.hidden-icon{
+  width: 30px;
+  position: absolute;
+  background-color: #0280e0;
+}
+.SliceIcon{
+  background-color: #0280e0;
+  width: 30px;
+  height: 100hv;
+}
+  
+`;
 const MainSideBar = styled.div`
-      position: relative;
+      z-index: 9999;
+      position: absolute;
+      top: 0;
+      margin-left: 30px;
       width: 300px;
-      height: 100hv;
+      height: inherit;
       background: #fff;
       box-sizing: border-box;
       transform: translate(0,-180%);
@@ -66,23 +88,33 @@ const MainSideBar = styled.div`
 
   .mainContainer{
     width: 300px;
-    height: 100%;
-    background-color: #F0F8FF;
-    position: absolute;
-    top: 0;
-  }
+    height: 100hv;
+    background-color: white;
+    position: relative;
+    top: 99px;
+    display: flex;
+    flex-direction: column;
+  
+    .searchForm{
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-evenly;
 
-  .footer{
-    position: absolute;
-    font-size: 2px;
-    background-color: #eee;
-    width: 300px;
-    padding: 4px;
-    box-sizing: border-box;
-    ul{
-      display: flex;
-      justify-content: space-evenly;
-      color: gray;
+    input{
+      padding: 7px 1px;
+    }
+    button{
+      border: none;
+      padding: 8px;
+      font-size: 12px;
+      background-color: #0280e0;
+      color: #F0F8FF;
+      font-weight: bold;
+      &:hover{
+        background-color: white;
+        color: #0280e0;
+      }
+    }
     }
   }
 
@@ -96,11 +128,22 @@ const SideBar = () => {
     setIsOpen(isOpen => !isOpen);},
   [isOpen])
 
+  const [iconLight, setIconLight] = useState(+true);
+  const CheckBtn = useCallback((e)=>{
+    setIconLight(iconLight => !iconLight)
+  },[iconLight])
+
+  
+
   return (
     <>
-    {/* <img className='hidden-icon'  src={isOpen ? isOpen :
-     require('../asset/img/square-blue.png')} alt='click' onClick={ClickBtn}/> */}
-      <></>
+    {/* <img className='hidden-icon'  src={isOpen ? isOpen :require('../asset/img/right')
+     require('../asset/img/left')} alt='click' onClick={ClickBtn}/> */}
+      <SideSlice>
+      <img className='hidden-icon'  src={isOpen ? require('../asset/img/right.png'):require('../asset/img/left.png') 
+      } alt='click' onClick={ClickBtn}/> 
+      <div className='SliceIcon'></div>
+      </SideSlice>
 
       <MainSideBar className={isOpen ? ('OnSide'):('')}>
           <div  className='header'>
@@ -114,26 +157,34 @@ const SideBar = () => {
                 </div>
           </div>
           <div className='mainContainer'>
-            <form className="searchForm">
-            <div className='searchList'>
-            <select name="sort">
-                <option>정확도순</option>
-                <option>거리순</option>
-            </select>
-                <input type="text" className="query" placeholder="Search" />
-                <button type="submit">검색</button>
-            </div>
-            </form>
+            <ul>
+              <li>
+                <h2>스타벅스 강남2점</h2>
+                <img width={20} src={iconLight ? require("../asset/img/star.png") :
+              require("../asset/img/star-full.png")}alt='click' onClick={CheckBtn}/>
+                <p>시그니처 로스팅, 가벼운 식사, 무료 Wi-Fi로 잘 알려진 미국 시애틀 기반의 커피하우스 체인점입니다.</p>
+                <p>서비스 옵션: 매장 내 식사 · 테이크아웃</p>
+                <p>주소: 서울특별시 서초구 서초동 1307-19 유빌딩 1,2층 </p>
+              </li>
+              <li>
+                <Comment/>
+              </li>
+              </ul>
+
+              <ul>
+              <li>
+                <h2>스타벅스 강남2점</h2>
+                <img width={20} src={iconLight ? require("../asset/img/star.png") :
+              require("../asset/img/star-full.png")}alt='click' onClick={CheckBtn}/>
+                <p>시그니처 로스팅, 가벼운 식사, 무료 Wi-Fi로 잘 알려진 미국 시애틀 기반의 커피하우스 체인점입니다.</p>
+                <p>서비스 옵션: 매장 내 식사 · 테이크아웃</p>
+                <p>주소: 서울특별시 서초구 서초동 1307-19 유빌딩 1,2층 </p>
+              </li>
+              <li>
+              <Comment/>
+              </li>
+            </ul>
         </div>
-      
-    <div className='footer'>
-      <ul>
-        <li>고객센터</li>
-        <li>지도 정보 수정</li>
-        <li>신규 장소 등록</li>
-        s
-      </ul>
-    </div>
     </MainSideBar> 
     </>
   )

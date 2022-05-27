@@ -3,8 +3,8 @@ import styled from "styled-components";
 import SideBar from "../components/SideBar";
 
 const MapView = styled.div`
-  width: 500PX;
-  height: 500PX;
+  width: 100vw;
+  height: 720PX;
   position: absolute;
   top: 0;
   right: 0;
@@ -33,9 +33,9 @@ const MapContainer = memo(() => {
 
   return (
     <>
+      <SideBar/>
       <MapView ref={myMap}>
       </MapView>
-      <SideBar />
     </>
   );
 });
