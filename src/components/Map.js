@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const MapView = styled.div`
   width: 100vw;
-  height: 720PX;
+  height: 100%;
   position: absolute;
   top: 0;
   right: 0;
