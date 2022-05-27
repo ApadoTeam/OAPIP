@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { RiZoomInLine, RiMapPin2Fill } from "react-icons/ri";
-//import Comment from "../components/Comment";
+import Comment from "../components/Comment";
 import Map from "../components/Map";
 
 const SideSlice = styled.div`
@@ -199,7 +199,7 @@ const SideBar = () => {
                 <p>주소: 서울특별시 서초구 서초동 1307-19 유빌딩 1,2층 </p>
               </li>
               <li>
-                {/* <Comment /> */}
+                <Comment />
               </li>
             </ul>
 
@@ -224,7 +224,7 @@ const SideBar = () => {
                 <p>주소: 서울특별시 서초구 서초동 1307-19 유빌딩 1,2층 </p>
               </li>
               <li>
-                {/* <Comment /> */}
+                <Comment />
               </li>
             </ul>
           </div>
