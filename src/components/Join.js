@@ -46,7 +46,7 @@ const JoinCss = styled.div`
   }
   .form {
     width: 480px;
-    height: 580px; // 500
+    height: 550px;
     margin: 0px auto;
     border: 1px solid #ccc;
     border-top: 1px solid white;
@@ -57,7 +57,7 @@ const JoinCss = styled.div`
     .loginBox {
       display: block;
       width: 400px;
-      height: 410px; //300
+      height: 400px;
       display: flex;
       flex-direction: column;
       justify-content: space-around;
@@ -78,6 +78,7 @@ const JoinCss = styled.div`
           outline: none;
           padding-left: 13px;
           border: 1px solid #ddd;
+          border-radius: 5px;
         }
         .alert {
           font-size: 12px;
@@ -139,16 +140,12 @@ const Join = memo(() => {
       pw: Yup.string()
         .required("필수 정보입니다.")
         .matches(
-          // /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]){8,16}$/,
           /^(?=.*[a-zA-Z0-9])(?=.*[!@#$%^*+=-])[a-zA-Z0-9!@#$%^*+=-]{8,16}$/,
           "8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요."
         ),
       pw2: Yup.string()
         .required("필수 정보입니다.")
-        .matches(
-          // [Yup.ref('pw'), null], "비밀번호와 일치하지 않습니다.",
-          /^(?=.*[a-zA-Z0-9])(?=.*[!@#$%^*+=-])[a-zA-Z0-9!@#$%^*+=-]{8,16}$/,
-          "비밀번호와 일치하지 않습니다."
+        .oneOf([Yup.ref('pw'), null], "비밀번호와 일치하지 않습니다."
         ),
       email: Yup.string()
         .required("필수 정보입니다.")
