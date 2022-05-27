@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
-import {RiArrowDropRightLine, RiArrowDropLeftLine, RiZoomInLine,RiMapPin2Fill} from "react-icons/ri";
+import {RiZoomInLine,RiMapPin2Fill} from "react-icons/ri";
 
 const MainSideBar = styled.div`
       margin-left: 30px;
@@ -98,7 +98,7 @@ const MainSideBar = styled.div`
 
 const SubBar = () => {
   // 사이드바 오픈을 위한 useState 
-  const [isOpen, setIsOpen] = React.useState(+true);
+  const [isOpen] = React.useState(+true);
 
   return (
     <div>

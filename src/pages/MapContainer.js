@@ -128,12 +128,12 @@ const SideBar = () => {
   const [isOpen, setIsOpen] = useState(+true);
   const ClickBtn = useCallback((e)=>{
     setIsOpen(isOpen => !isOpen);},
-  [isOpen])
+  [])
 
   const [iconLight, setIconLight] = useState(+true);
   const CheckBtn = useCallback((e)=>{
     setIconLight(iconLight => !iconLight)
-  },[iconLight])
+  },[])
 
   
 
