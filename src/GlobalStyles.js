@@ -65,6 +65,11 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+input{
+	border: none;
+}
+
+
 `;
 
 export default GlobalStyles;
