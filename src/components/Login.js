@@ -1,5 +1,5 @@
 /**
- * @file: Comment.js
+ * @file: Login.js
  * @description: 로그인 기능 구현
  * @author: 천경재
  */
@@ -162,10 +162,10 @@ const Login = memo(() => {
       let compare = (data.find((d) => {
         return d.id === values.id;
       }))
-      console.log(compare);
+      //console.log(compare);
       if (compare !== undefined) {
-        (compare.id === values.id && compare.pw === values.pw) &&
-        (window.alert("로그인 성공") (navigate("/mapcontainer", { replace: true }))) 
+        (compare.id === values.id && compare.pw === values.pw) ?
+        (window.alert("로그인 성공") (navigate("/mapcontainer", { replace: true }))) : (window.alert("아이디 비밀번호를 다시 한번 확인해주세요.")) 
       } else {
         window.alert("아이디 비밀번호를 다시 한번 확인해주세요.");
         console.log(compare.id, compare.pw);

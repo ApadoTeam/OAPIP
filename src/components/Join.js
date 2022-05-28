@@ -1,3 +1,9 @@
+/**
+ * @file: Join.js
+ * @description: 회원가입 기능 구현
+ * @author: 천경재
+ */
+
 import React, { memo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getInfo } from "../Slices/UserInfoSlice";
