@@ -17,6 +17,7 @@ import Spinner from '../components/Spinner';
 const Comment = () => {
   // store 구독
   const { data, loading1, error } = useSelector((state) => state.comment);
+  console.log(data);
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 댓글 추가 axios 시작
   const [{ loading2 }, postComent] = useAxios(
@@ -53,7 +54,7 @@ const Comment = () => {
   const [inputValue, setInputValue] = useState('');
 
   // 수정할 id값의 상태 값
-  const [ updateComment, setUpdateComment ] = useState(-1);
+  const [updateComment, setUpdateComment] = useState(-1);
 
   // 디스패치 함수 생성
   const dispatch = useDispatch();
@@ -75,6 +76,7 @@ const Comment = () => {
         });
 
         json = response.data;
+        console.log(json);
       } catch (e) {
         console.error(e);
       }
@@ -93,7 +95,10 @@ const Comment = () => {
       comment: '',
     },
     validationSchema: Yup.object({
-      comment: Yup.string().required('댓글을 입력하세요'),
+      comment: Yup.string()
+        .required('댓글을 입력하세요')
+        .min(10, '10글자 제한ㅋㅋㅋ')
+        .max(50, '50글자 이상 ㄴㄴ'),
     }),
     onSubmit: (values) => {
       submit();
@@ -136,6 +141,7 @@ const Comment = () => {
             });
 
             json = response.data;
+            console.log(json);
           } catch (e) {
             console.error(e);
           }
@@ -157,40 +163,44 @@ const Comment = () => {
     setUpdateComment(parseInt(e.target.dataset.id));
   }, []);
 
-  const onUpdateSubmit = useCallback(e => {
-    e.preventDefault();
+  const onUpdateSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
 
-    const getId = parseInt(e.target.id.value);
-    const getComment = e.target.updateComment.value;
+      const getId = parseInt(e.target.id.value);
+      const getComment = e.target.updateComment.value;
 
-    (async () => {
-      let json = null;
+      (async () => {
+        let json = null;
 
-      try {
-        const response = await putComment({
-          method: 'PUT',
-          url: `http://localhost:3001/comment/${getId}`,
-          data: {
-            text: getComment,
-          }
-        });
+        try {
+          const response = await putComment({
+            method: 'PUT',
+            url: `http://localhost:3001/comment/${getId}`,
+            data: {
+              text: getComment,
+            },
+          });
 
-        json = response.data;
-      } catch (e) {
-        console.error(e);
-      }
+          json = response.data;
+          console.log(json);
+        } catch (e) {
+          console.error(e);
+        }
 
-      if (json != null) {
-        setComment((comment) => {
-          const find = comment.findIndex(({id, text}, i) => id === json.id);
-          const newComment = [...comment].splice(find, 1, json);
-          // newComment.splice(find, 1, json);
-          return newComment;
-        });
-      }
-    })();
-    setUpdateComment(-1);
-  }, [putComment]);
+        if (json != null) {
+          setComment((comment) => {
+            const find = comment.findIndex(({ id, text }, i) => id === json.id);
+            const newComment = [...comment].splice(find, 1, json);
+            // newComment.splice(find, 1, json);
+            return newComment;
+          });
+        }
+      })();
+      setUpdateComment(-1);
+    },
+    [putComment]
+  );
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 댓글 수정 끝
 
   return (
@@ -207,7 +217,7 @@ const Comment = () => {
           onChange={formik.handleChange}
         />
         <button type="submit">등록</button>
-        {formik.touched.comment && <h1 style={{ color: 'red' }}>{formik.errors.comment}</h1>}
+        {formik.touched.comment && <p style={{ color: 'red' }}>{formik.errors.comment}</p>}
       </form>
 
       {error ? (
@@ -222,9 +232,9 @@ const Comment = () => {
             <div key={id}>
               {updateComment === id ? (
                 <form onSubmit={onUpdateSubmit}>
-                  <input type="hidden" name='id' defaultValue={id} />
-                  <input type="text" name='updateComment' defaultValue={text} />
-                  <button type='submit'>수정하기</button>
+                  <input type="hidden" name="id" defaultValue={id} />
+                  <input type="text" name="updateComment" defaultValue={text} />
+                  <button type="submit">수정하기</button>
                 </form>
               ) : (
                 <>
@@ -237,7 +247,6 @@ const Comment = () => {
                   </button>
                 </>
               )}
-              
             </div>
           );
         })
