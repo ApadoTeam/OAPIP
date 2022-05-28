@@ -247,39 +247,3 @@ const Comment = () => {
 };
 
 export default memo(Comment);
-
-// // 입력 값
-// const onchange = useCallback((e) => setInputValue(e.currentTarget.value), []);
-
-/**************************************** */
-// 댓글 등록
-// const onSubmit = useCallback(
-//   (e) => {
-//     e.preventDefault();
-
-//     let json = null;
-
-//     (async () => {
-//       try {
-//         const response = await refetch({
-//           data: {
-//             id: nextId.current,
-//             text: formik.values.comment,
-//             checked: false,
-//           },
-//         });
-
-//         json = response.data;
-//       } catch (e) {
-//         console.error(e);
-//       }
-//       if (json !== null) {
-//         window.alert('댓글이 등록되었습니다.');
-//       }
-//       setAddComment(addComment.concat(json));
-//       setInputValue('');
-//       nextId.current += 1;
-//     })();
-//   },
-//   [formik.values.comment, refetch, addComment]
-// );
