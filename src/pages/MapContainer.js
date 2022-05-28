@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { RiZoomInLine, RiMapPin2Fill } from "react-icons/ri";
-import Comment from "../components/Comment";
+//import Comment from "../components/Comment";
 import Map from "../components/Map";
 
 const SideSlice = styled.div`
