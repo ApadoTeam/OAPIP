@@ -1,6 +1,6 @@
 /**
  * @file: Comment.js
- * @description: 댓글 기능 구현
+ * @description: 댓글의 입력 수정 삭제 조회 기능 구현
  * @author: 박찬우
  */
 
@@ -15,45 +15,32 @@ import useAxios from 'axios-hooks';
 import Spinner from '../components/Spinner';
 
 const Comment = () => {
-  // store 구독
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - store 구독
   const { data, loading1, error } = useSelector((state) => state.comment);
 
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 댓글 추가 axios 시작
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 댓글 추가 axios
   const [{ loading2 }, postComent] = useAxios(
-    {
-      url: 'http://localhost:3001/comment',
-      method: 'POST',
-    },
+    { url: 'http://localhost:3001/comment', method: 'POST' },
     { manual: true }
   );
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 댓글 추가 axios 끝//
 
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 댓글 삭제 axios 시작
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 댓글 삭제 axios
   const [{ loading3 }, deleteComment] = useAxios(
-    {
-      method: 'DELETE',
-    },
+    { method: 'DELETE' },
     { useCache: false, manual: true }
   );
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 댓글 삭제 axios 끝//
 
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 댓글 수정 axios 시작
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 댓글 수정 axios
   const [{ loading4 }, putComment] = useAxios(
-    {
-      method: 'PUT',
-    },
+    { method: 'PUT' },
     { useCache: false, manual: true }
   );
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 댓글 수정 axios 끝//
 
   // store를 통해 가져온 데이터를 댓글 상태값으로 사용한다.
   const [comment, setComment] = useState([]);
 
-  // 입력 상태값
-  // const [inputValue, setInputValue] = useState('');
-
   // 수정할 id값의 상태 값
-  const [updateComment, setUpdateComment] = useState(-1);
+  const [updateId, setUpdateId] = useState(-1);
 
   // 디스패치 함수 생성
   const dispatch = useDispatch();
@@ -61,7 +48,8 @@ const Comment = () => {
   // id값 정의
   const nextId = useRef(1);
 
-  // submit 함수
+
+   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - submit 함수
   const submit = () => {
     let json = null;
 
@@ -82,13 +70,12 @@ const Comment = () => {
         window.alert('댓글이 등록되었습니다.');
       }
 
-      // setInputValue('');
       formik.values.comment = '';
       nextId.current += 1;
     })();
   };
 
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 유효성 검사 시작
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 유효성 검사
   const formik = useFormik({
     initialValues: {
       comment: '',
@@ -103,13 +90,8 @@ const Comment = () => {
       submit();
     },
   });
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 유효성 검사 끝//
 
-  // useEffect(() => {
-  //   setInputValue(formik.values.comment);
-  // }, [formik.values.comment]);
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 댓글 값 가져오기 시작
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 댓글 값 가져오기
   // 입력값 변경된 경우 리덕스 액션함수 호출
   useEffect(() => {
     dispatch(getCommnet(formik.values.comment));
@@ -118,9 +100,8 @@ const Comment = () => {
   useEffect(() => {
     setComment((comment) => data);
   }, [data]);
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 댓글 값 가져오기 끝//
 
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 댓글 삭제 시작
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 댓글 삭제
   const onDeleteClick = useCallback(
     (e) => {
       e.preventDefault();
@@ -151,18 +132,14 @@ const Comment = () => {
     },
     [deleteComment]
   );
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 댓글 삭제 끝//
 
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 댓글 수정 시작
-  const upadteInputRef = useRef();
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 댓글 수정
 
   const onPutClick = useCallback((e) => {
     e.preventDefault();
 
-    setUpdateComment(parseInt(e.target.dataset.id));
-    // upadteInputRef.current.focus();
+    setUpdateId(parseInt(e.target.dataset.id));
   }, []);
- 
 
   const onUpdateSubmit = useCallback(
     (e) => {
@@ -185,7 +162,6 @@ const Comment = () => {
           });
 
           json = response.data;
-          console.log(json)
         } catch (e) {
           console.error(e);
         }
@@ -198,11 +174,11 @@ const Comment = () => {
           });
         }
       })();
-      setUpdateComment(-1);
+      setUpdateId(-1);
+      // window.location.reload();  // 쓸지 안쓸지 고민중 ..
     },
     [putComment]
   );
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 댓글 수정 끝//
 
   return (
     <div>
@@ -214,8 +190,6 @@ const Comment = () => {
           placeholder="댓글입력"
           name="comment"
           {...formik.getFieldProps('comment')}
-          // value={inputValue}
-          // onChange={formik.handleChange}
         />
         <button type="submit">등록</button>
         {formik.touched.comment && <p style={{ color: 'red' }}>{formik.errors.comment}</p>}
@@ -231,10 +205,10 @@ const Comment = () => {
         comment.map(({ id, text }, i) => {
           return (
             <div key={id}>
-              {updateComment === id ? (
+              {updateId === id ? (
                 <form onSubmit={onUpdateSubmit}>
                   <input type="hidden" name="id" defaultValue={id} />
-                  <input type="text" name="updateComment" defaultValue={text} ref={upadteInputRef} />
+                  <input type="text" name="updateComment" defaultValue={text} autoFocus />
                   <button type="submit">수정하기</button>
                 </form>
               ) : (
@@ -257,39 +231,3 @@ const Comment = () => {
 };
 
 export default memo(Comment);
-
-// // 입력 값
-// const onchange = useCallback((e) => setInputValue(e.currentTarget.value), []);
-
-/**************************************** */
-// 댓글 등록
-// const onSubmit = useCallback(
-//   (e) => {
-//     e.preventDefault();
-
-//     let json = null;
-
-//     (async () => {
-//       try {
-//         const response = await refetch({
-//           data: {
-//             id: nextId.current,
-//             text: formik.values.comment,
-//             checked: false,
-//           },
-//         });
-
-//         json = response.data;
-//       } catch (e) {
-//         console.error(e);
-//       }
-//       if (json !== null) {
-//         window.alert('댓글이 등록되었습니다.');
-//       }
-//       setAddComment(addComment.concat(json));
-//       setInputValue('');
-//       nextId.current += 1;
-//     })();
-//   },
-//   [formik.values.comment, refetch, addComment]
-// );
