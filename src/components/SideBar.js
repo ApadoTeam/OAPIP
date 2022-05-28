@@ -10,11 +10,13 @@ const SideBarCss = styled.div`
   display: flex;
   flex-direction: column;
   transition: all 0.2s;
+  border-right: 1px solid #04c1de;
   .menuArea {
     width: 100%;
     height: 20vh;
     background-color: #0280e0;
     display: flex;
+    border-bottom: 1px solid #04c1de;
     .form {
       width: 80%;
       height: 46px;
@@ -42,7 +44,7 @@ const SideBarCss = styled.div`
         margin: auto auto;
         border: 0;
         &:hover {
-        background-position: -42px -120px;
+        background-position: -42px -118px;
         }
       }
     }
@@ -50,11 +52,17 @@ const SideBarCss = styled.div`
   .listArea {
     width: 100%;
     height: 100vh;
-    background-color: aliceblue;
     display: flex;
+    flex-direction: column;
     .list {
+      display: inline-block;
       width: 100%;
-      height: 30%;
+      height: 100%;
+      background-color: aliceblue;
+      border-top: 1px solid #ccc;
+      &:first-child {
+        border-top: 0;
+      }
     }
   }
 `;
@@ -85,7 +93,7 @@ const SideBar = memo(() => {
     <SideBarCss ref={side}>
       <div className="menuArea">
         <form onSubmit={onSearch} className='form'>
-          <input type='search' name='query' defaultValue={query} placeholder="검색어를 입력 해주세요."/>
+          <input type='search' name='query' defaultValue={query} placeholder="검색어를 입력 해주세요." />
           <button type='submit'></button>
         </form>
       </div>

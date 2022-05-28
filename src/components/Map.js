@@ -3,6 +3,8 @@ import styled from "styled-components";
 import SideBar from "../components/SideBar";
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleBtn } from '../Slices/MapSlice';
+import arrowL from '../asset/img/left.png';
+import arrowR from '../asset/img/right.png';
 
 const MapCss = styled.div`
   display: flex;
@@ -17,18 +19,35 @@ const MapCss = styled.div`
       display: block;
       width: 25px;
       height: 75px;
-      background-color: #ccc;
+      background-color: #0280e0;
       margin: auto 0;
       justify-self: center;
-      border: 1px solid #ccc;
+      border: 1px solid #0280e0;
+      border-left: 0;
       border-top-right-radius: 5px;
       border-bottom-right-radius: 5px;
+      .left {
+        display: block;
+        background: url(${arrowL}) no-repeat;
+        background-size: 25px 40px;
+        background-position: -7px;
+        text-indent: -99999px;
+      }
+      .false {
+        display: block;
+        width: 20px;
+        height: 20px;
+        background: url(${arrowR}) no-repeat;
+        background-size: 20px 20px;
+        margin: 0 auto;
+        text-indent: -99999px;
+      }
     }
   }
 `;
 
 // window 전역 객체로 들어간 kakao 객체 변수로 뽑기.
-// const { kakao } = window;
+  // const { kakao } = window;
 const Map = memo(() => {
   // const myMap = useRef();
   // useEffect(() => {
@@ -54,8 +73,8 @@ const Map = memo(() => {
       <MapCss>
         <SideBar />
         <div className="map">
-          <button className="sideBtn" onClick={(e) => { dispatch(toggleBtn(+false)); }}>
-            <span>{toggle}</span>
+          <button className='sideBtn' onClick={(e) => { dispatch(toggleBtn(+false))}}>
+          {toggle ? <span className="left">left</span> : <span className="left">right</span>}
           </button>
         </div>
       </MapCss>
