@@ -119,17 +119,32 @@ const MainSideBar = styled.div`
   }
 `;
 
-const SideBar = () => {
+const MapContainer = () => {
   // 사이드바 오픈을 위한 useState
   const [isOpen, setIsOpen] = useState(+true);
   const ClickBtn = useCallback((e) => {
     setIsOpen((isOpen) => !isOpen);
   }, []);
 
+  //아이콘 클릭시 채워짐
   const [iconLight, setIconLight] = useState(+true);
   const CheckBtn = useCallback((e) => {
     setIconLight((iconLight) => !iconLight);
-  }, []);
+  }, [])
+
+    const [inputText, setInputText] = useState('')
+    const [place, setPlace] = useState('')
+  
+    const onChange = (e) => {
+      setInputText(e.target.value)
+    }
+  
+    const handleSubmit = (e) => {
+      e.preventDefault()
+      setPlace(inputText)
+      setInputText('')
+    }
+  
 
   return (
     <>
@@ -164,23 +179,15 @@ const SideBar = () => {
                 <RiMapPin2Fill />현 지도 내 장소 검색
               </div>
             </div>
-            <form className="search-section">
-              <label htmlFor="placeMark">
-                <input
-                  className="search-input"
-                  name="placeMark"
-                  placeholder="검색어를 입력하세요."
-                />
-              </label>
-              <div className="search-btn">
+            <form className="search-section" onSubmit={handleSubmit}>
+                <input className="search-input" onChange={onChange} value={inputText}/>
+              <button className="search-btn" type="submit">
                 <RiZoomInLine />
-              </div>
+              </button>
             </form>
+            <Map searchPlace={place} />
           </div>
-          <div className="mainContainer">
-            <ul>
-              <li>
-                <h2>스타벅스 강남2점</h2>
+          <div className="mainContainer">                                            
                 <img
                   width={20}
                   src={
@@ -191,48 +198,11 @@ const SideBar = () => {
                   alt="click"
                   onClick={CheckBtn}
                 />
-                <p>
-                  시그니처 로스팅, 가벼운 식사, 무료 Wi-Fi로 잘 알려진 미국
-                  시애틀 기반의 커피하우스 체인점입니다.
-                </p>
-                <p>서비스 옵션: 매장 내 식사 · 테이크아웃</p>
-                <p>주소: 서울특별시 서초구 서초동 1307-19 유빌딩 1,2층 </p>
-              </li>
-              <li>
-                <Comment />
-              </li>
-            </ul>
-
-            <ul>
-              <li>
-                <h2>스타벅스 강남2점</h2>
-                <img
-                  width={20}
-                  src={
-                    iconLight
-                      ? require("../asset/img/star.png")
-                      : require("../asset/img/star-full.png")
-                  }
-                  alt="click"
-                  onClick={CheckBtn}
-                />
-                <p>
-                  시그니처 로스팅, 가벼운 식사, 무료 Wi-Fi로 잘 알려진 미국
-                  시애틀 기반의 커피하우스 체인점입니다.
-                </p>
-                <p>서비스 옵션: 매장 내 식사 · 테이크아웃</p>
-                <p>주소: 서울특별시 서초구 서초동 1307-19 유빌딩 1,2층 </p>
-              </li>
-              <li>
-                <Comment />
-              </li>
-            </ul>
           </div>
         </div>
       </MainSideBar>
-      <Map />
+      <Map/>
     </>
-  );
-};
-
-export default SideBar;
+  )
+}
+export default MapContainer;

@@ -28,11 +28,9 @@ const MapCss = styled.div`
 `;
 
 // window 전역 객체로 들어간 kakao 객체 변수로 뽑기.
-//const { kakao } = window;
-
-const MapContainer = memo(() => {
+// const { kakao } = window;
+const Map = memo(() => {
   // const myMap = useRef();
-
   // useEffect(() => {
   //   // 지도를 렌더링할 영역을 ref로 뽑아 변수에 담기
   //   const container = myMap.current;
@@ -53,7 +51,6 @@ const MapContainer = memo(() => {
   const dispatch = useDispatch();
 
   return (
-    <>
       <MapCss>
         <SideBar />
         <div className="map">
@@ -62,8 +59,7 @@ const MapContainer = memo(() => {
           </button>
         </div>
       </MapCss>
-    </>
   );
 });
 
-export default MapContainer;
+export default Map;
