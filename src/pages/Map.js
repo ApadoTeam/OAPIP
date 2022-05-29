@@ -2,7 +2,7 @@ import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import SideBar from '../components/SideBar';
 import { useDispatch, useSelector } from 'react-redux';
-import { toggleBtn } from '../Slices/MapSlice';
+// import { toggleBtn } from '../Slices/MapSlice';
 import arrowL from '../asset/img/left.png';
 import arrowR from '../asset/img/right.png';
 
@@ -11,7 +11,7 @@ const MapCss = styled.div`
   flex-direction: row;
 
   .map {
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     background-color: gray;
     display: flex;
@@ -51,13 +51,23 @@ const MapCss = styled.div`
 const { kakao } = window;
 
 const Map = () => {
+  const { meta, documents, error } = useSelector((state) => state.map);
 
   // 토글 기능
-  const { toggle } = useSelector((state) => state.map);
+  // const { toggle } = useSelector((state) => state.map);
 
   const dispatch = useDispatch();
 
   const myMap = useRef();
+
+  // 버튼 토글
+  const [button, setButton] = useState(true);
+  console.log(button)
+
+  // 버튼 클릭시 boolean 값 변경
+  const onClick = useCallback(e => {
+    setButton(button => !button)
+  }, [])
 
   useEffect(() => {
     // 지도를 렌더링할 영역을 ref로 뽑아 변수에 담기
@@ -67,7 +77,7 @@ const Map = () => {
     const options = {
       center: new kakao.maps.LatLng(37.5026, 127.0249),
       level: 3,
-      tileAnimation: true,
+      // tileAnimation: true,
     };
 
     const map = new kakao.maps.Map(container, options);
@@ -75,27 +85,63 @@ const Map = () => {
     // map에 컨트롤러 추가, 컨트롤러 위치는 오른쪽이다.
     const zoomControl = new kakao.maps.ZoomControl();
 
+    // 컨트롤러 위치 지정
     map.addControl(zoomControl, kakao.maps.ControlPosition.LEFT);
 
-    // 지형도? 쓸일 없을 듯
-    // map.addOverlayMapTypeId(kakao.maps.MapTypeId.TERRAIN); 
+    // 마커 이미지 커스텀 (필수아님)
+    const imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png';
 
-    if(toggle === 0) {
-      map.relayout();
-    }
+    const imageSize = new kakao.maps.Size(24, 35);
+    const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 
-  }, [toggle]);
+    // 검색시 마커 생성
+    documents &&
+      documents.map(({ id, x, y }, i) => {
+        return new kakao.maps.Marker({
+          map: map,
+          position: new kakao.maps.LatLng(y, x),
+          image: markerImage,
+        });
+      });
+
+    // 레이아웃 재설정
+    if (button === false) map.relayout();
+
+
+    // documents &&
+    //   documents.map(({ id, x, y }, i) => {
+    //     return new kakao.maps.LatLngBounds(
+
+    //     );
+    //   });
+
+
+    // documents &&
+    //   documents.map(({ id, x, y }, i) => {
+    //     return new kakao.maps.LatLng(y, x);
+    //   });
+
+    // const bounds = new kakao.maps.LatLngBounds();
+    // bounds.extend();
+
+  }, [button, documents]);
+
+  // useEffect(() => {
+  //   const map = new kakao.maps.Map(myMap.current);
+  //   if (button === false) map.relayout();
+  // }, [button])
+
+
+
 
   return (
     <div>
       <MapCss>
-        <SideBar />
+        <SideBar button={button} />
 
         <div className="map" ref={myMap}>
-          <button className="sideBtn" onClick={(e) => {
-            dispatch(toggleBtn(+false));
-          }}>
-            {toggle ?  <span className="left">left</span> : <span className="right">right</span>}
+          <button className="sideBtn" onClick={onClick}>
+            {button && button ? <span className="left">left</span> : <span className="right">right</span>}
           </button>
         </div>
       </MapCss>

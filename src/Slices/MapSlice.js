@@ -28,11 +28,12 @@ const MapSlice = createSlice({
   initialState: {
     toggle: +true,
     meta: null,
-    documents: null,
     same_name: null,
+    documents: null,
     loading: false,
     error: null,
   },
+  
   reducers: {
     toggleBtn: (state, action) => {
       let fls = action.payload;
@@ -43,6 +44,7 @@ const MapSlice = createSlice({
       }
     }
   },
+
   extraReducers: {
     [getMapInfo.pending]: (state, { payload }) => {
       return { ...state, loading: true }
@@ -62,6 +64,7 @@ const MapSlice = createSlice({
         same_name: null,
         documents: null,
         loading: false,
+        toggle: +true,
         error: {
           code: payload?.status ? payload.status : 500,
           message: payload?.statusText ? payload.statusText : 'Server Error'
