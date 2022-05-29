@@ -96,6 +96,10 @@ const Map = () => {
 
   }, [button, documents]);
 
+  useEffect(() => {
+
+  }, [])
+
 
 
   return (
