@@ -11,15 +11,11 @@ const MapCss = styled.div`
   flex-direction: row;
 
   .map {
-    width: 75vw;
+    width: 100vw;
     height: 100vh;
     background-color: gray;
     display: flex;
     flex-direction: row;
-
-    @media (min-width: 1600px) {
-      width: 100%;
-    }
 
     .sideBtn {
       display: block;
