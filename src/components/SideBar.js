@@ -84,6 +84,7 @@ const SideBarCss = styled.div`
       /* background-color: aliceblue; */
       border-top: 1px solid #ccc;
       padding-left: 15px;
+      transition: .2s ease-in-out;
 
       &:first-child {
         border-top: 0;
@@ -99,17 +100,21 @@ const SideBarCss = styled.div`
         color: #555;
 
         &:nth-child(1) {
-          font-size: 18px;
+          font-size: 1.1vw;
           font-weight: bold;
           color: #222;
         }
         &:nth-child(2) {
-          font-size: 12px;
+          font-size: .8vw;
           color: #999;
         }
         &:nth-child(3) {
-          font-size: 12px;
+          font-size: .7vw;
           color: #499970;
+        }
+        &:nth-child(4) {
+          font-size: .9vw;
+          color: #666;
         }
       }
     }
