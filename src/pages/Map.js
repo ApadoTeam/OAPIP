@@ -1,6 +1,6 @@
-import React, { memo } from "react";
-import styled from "styled-components";
-import SideBar from "../components/SideBar";
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
+import SideBar from '../components/SideBar';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleBtn } from '../Slices/MapSlice';
 import arrowL from '../asset/img/left.png';
@@ -9,12 +9,18 @@ import arrowR from '../asset/img/right.png';
 const MapCss = styled.div`
   display: flex;
   flex-direction: row;
+
   .map {
-    width: 100%;
+    width: 75vw;
     height: 100vh;
     background-color: gray;
     display: flex;
     flex-direction: row;
+
+    @media (min-width: 1600px) {
+      width: 100%;
+    }
+
     .sideBtn {
       display: block;
       width: 25px;
@@ -26,6 +32,7 @@ const MapCss = styled.div`
       border-left: 0;
       border-top-right-radius: 5px;
       border-bottom-right-radius: 5px;
+      cursor: pointer;
       z-index: 99;
 
       .left {
@@ -45,46 +52,59 @@ const MapCss = styled.div`
     }
   }
 `;
+const { kakao } = window;
 
-  // window 전역 객체로 들어간 kakao 객체 변수로 뽑기.
-  const { kakao } = window;
+const Map = () => {
 
-const Map = memo(() => {
-  const myMap = React.useRef();
+  // 토글 기능
   const { toggle } = useSelector((state) => state.map);
 
-  React.useEffect(() => {
+  const dispatch = useDispatch();
+
+  const myMap = useRef();
+
+  useEffect(() => {
     // 지도를 렌더링할 영역을 ref로 뽑아 변수에 담기
     const container = myMap.current;
+
     // 지도 생성 시 옵션 (위치, 지도 확대 레벨)
     const options = {
       center: new kakao.maps.LatLng(37.5026, 127.0249),
       level: 3,
       tileAnimation: true,
     };
+
     const map = new kakao.maps.Map(container, options);
+
     // map에 컨트롤러 추가, 컨트롤러 위치는 오른쪽이다.
     const zoomControl = new kakao.maps.ZoomControl();
-    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-    if (toggle === false) {
-      map.ralayout();
+
+    map.addControl(zoomControl, kakao.maps.ControlPosition.LEFT);
+
+    // 지형도? 쓸일 없을 듯
+    // map.addOverlayMapTypeId(kakao.maps.MapTypeId.TERRAIN); 
+
+    if(toggle === 0) {
+      map.relayout();
     }
+
   }, [toggle]);
 
-  
-  
-  const dispatch = useDispatch();
-console.log(toggle);
   return (
+    <div>
       <MapCss>
         <SideBar />
+
         <div className="map" ref={myMap}>
-          <button className='sideBtn' onClick={(e) => { dispatch(toggleBtn(+false))}}>
-          {toggle ? <span className="left">left</span> : <span className="right">right</span>}
+          <button className="sideBtn" onClick={(e) => {
+            dispatch(toggleBtn(+false));
+          }}>
+            {toggle ?  <span className="left">left</span> : <span className="right">right</span>}
           </button>
         </div>
       </MapCss>
+    </div>
   );
-});
+};
 
-export default Map;
+export default memo(Map);
