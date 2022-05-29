@@ -143,7 +143,7 @@ const Join = memo(() => {
     },
     { manual: true }
   );
-    console.log(data);
+    // console.log(data);
 
   const formik = useFormik({
     initialValues: {

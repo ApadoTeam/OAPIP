@@ -70,16 +70,12 @@ const Map = () => {
   }, []);
 
   // 자식인 side에서 받아올 위치 state
-  const [loc, setLoc] = useState([]);
+  const [loc, setLoc] = useState();
 
   // 자식으로 내려보낼 함수
-  const maps = useCallback(
-    (location) => {
-      setLoc(location);
-      console.log(loc[0], loc[1]);
-    },
-    [loc]
-  );
+  const maps = (location) => {
+    setLoc(location);
+  };
 
   useEffect(() => {
     // 지도를 렌더링할 영역을 ref로 뽑아 변수에 담기
@@ -115,20 +111,31 @@ const Map = () => {
         });
       });
 
-    // 검색된 목록 클릭 시, 검색 시 해당 위치로 지도 범위 재설정
+    // 검색 시 검색 위치로 지도 범위 재설정
 
-    let bounds = new kakao.maps.LatLngBounds();
-    documents &&
-      documents.map(({ x, y }) => {
-        bounds.extend(new kakao.maps.LatLng({y, x} || loc[0], loc[1]));
-        let locMove = new kakao.maps.LatLng(loc[0], loc[1]);
-        return (map.setBounds(bounds), map.panTo(locMove));;
+    // documents &&
+    //   documents.map(({ x, y }) => {
+    //     let bounds = new kakao.maps.LatLngBounds();
+    //     bounds.extend(new kakao.maps.LatLng(y, x));
+    //     return map.setBounds(bounds);
+    //   });
+    if (documents) {
+      documents.forEach(({ y, x }) => {
+        let bounds = new kakao.maps.LatLngBounds();
+        map.setBounds(bounds.extend(new kakao.maps.LatLng(y, x)));
       });
-      
+    }
+    // // 검색된 목록 클릭 시 위치 이동
+    // if (loc) {
+    //   let locBounds = new kakao.maps.LatLngBounds();
+    //   let locLatLng = new kakao.maps.LatLng(loc[0], loc[1]);
+    //   locBounds.extend(locLatLng);
+    //   map.setBounds(locBounds);
+    //   map.panTo(locLatLng);
+    // }
+
     // 레이아웃 재설정
     if (button === false) map.relayout();
-
-    console.log(loc);
   }, [button, documents, loc]);
 
   return (

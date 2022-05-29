@@ -165,10 +165,10 @@ const SideBar = memo(({ button, maps }) => {
   );
 
   // 클릭 시 Map.js로 값 전달
-  const selectMove = useCallback((e) => {
+  const selectMove =(e) => {
     let location = e.target.innerText.split(',');
     maps(location);
-  }, [maps]);
+  };
 
   // 디스패치
   useEffect(() => {
