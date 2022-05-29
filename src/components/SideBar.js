@@ -81,14 +81,36 @@ const SideBarCss = styled.div`
       display: inline-block;
       width: 100%;
       height: 100%;
-      background-color: aliceblue;
+      /* background-color: aliceblue; */
       border-top: 1px solid #ccc;
       padding-left: 15px;
+
       &:first-child {
         border-top: 0;
       }
+
+      &:hover {
+          background-color: #0280e033;
+          cursor: pointer;
+        }
+        
       li {
         line-height: 30px;
+        color: #555;
+
+        &:nth-child(1) {
+          font-size: 18px;
+          font-weight: bold;
+          color: #222;
+        }
+        &:nth-child(2) {
+          font-size: 12px;
+          color: #999;
+        }
+        &:nth-child(3) {
+          font-size: 12px;
+          color: #499970;
+        }
       }
     }
   }
@@ -144,28 +166,27 @@ const SideBar = memo(({ button }) => {
           </form>
         </div>
         <div className='listArea'>
-        {error ? (
-          <div className='errorArea'>
-            <img src={ryan} alt='ryan' className='ryan' />
-            <p><strong>검색할 키워드를 입력해주세요</strong></p>
-          </div>
-        ) : documents ? (
-          documents.map((v,i) => {
-            return (
-              <ul key={v.id}>
-                {/* <li>{v.id}</li> */}
-                <li>{v.place_name}</li>
-                {/* <li>{v.category_group_name}</li> */}
-                <li>{v.category_name}</li>
-                <li>{v.phone}</li>
-                {/* <li>{v.place_url}</li> */}
-                <li>{v.road_address_name}</li>
-              </ul>
-            );
-          })
-        ) : (
-          <p>검색결과가 없습니다.</p>
-        )}
+          {error ? (
+            <div className='errorArea'>
+              <img src={ryan} alt='ryan' className='ryan' />
+              <p><strong>검색할 키워드를 입력해주세요</strong></p>
+            </div>
+          ) : documents ? (
+            documents.map((v,i) => {
+              return (
+                <ul key={v.id}>
+                  <li>{v.place_name}</li>
+                  {/* <li>{v.category_group_name}</li> */}
+                  <li>{v.category_name}</li>
+                  <li>{v.phone}</li>
+                  {/* <li>{v.place_url}</li> */}
+                  <li>{v.road_address_name}</li>
+                </ul>
+              );
+            })
+          ) : (
+            <p>검색결과가 없습니다.</p>
+          )}
         </div>
       </SideBarCss>}
     </div>

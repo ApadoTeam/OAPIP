@@ -57,7 +57,6 @@ const Map = () => {
 
   // 버튼 토글
   const [button, setButton] = useState(true);
-  console.log(button)
 
   // 버튼 클릭시 boolean 값 변경
   const onClick = useCallback(e => {
@@ -83,49 +82,19 @@ const Map = () => {
     // 컨트롤러 위치 지정
     map.addControl(zoomControl, kakao.maps.ControlPosition.LEFT);
 
-    // 마커 이미지 커스텀 (필수아님)
-    const imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png';
-
-    const imageSize = new kakao.maps.Size(24, 35);
-    const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-
     // 검색시 마커 생성
     documents &&
       documents.map(({ id, x, y }, i) => {
         return new kakao.maps.Marker({
           map: map,
           position: new kakao.maps.LatLng(y, x),
-          image: markerImage,
         });
       });
 
     // 레이아웃 재설정
     if (button === false) map.relayout();
 
-
-    // documents &&
-    //   documents.map(({ id, x, y }, i) => {
-    //     return new kakao.maps.LatLngBounds(
-
-    //     );
-    //   });
-
-
-    // documents &&
-    //   documents.map(({ id, x, y }, i) => {
-    //     return new kakao.maps.LatLng(y, x);
-    //   });
-
-    // const bounds = new kakao.maps.LatLngBounds();
-    // bounds.extend();
-
   }, [button, documents]);
-
-  // useEffect(() => {
-  //   const map = new kakao.maps.Map(myMap.current);
-  //   if (button === false) map.relayout();
-  // }, [button])
-
 
 
 
