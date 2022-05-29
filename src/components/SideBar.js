@@ -154,6 +154,8 @@ const SideBar = memo(({ button }) => {
     );
   }, [dispatch, searchValue]);
 
+
+  
   return (
     <div>
       <Spinner visible={loading} />

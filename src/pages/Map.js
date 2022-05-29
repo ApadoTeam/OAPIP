@@ -1,10 +1,10 @@
-import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
-import SideBar from '../components/SideBar';
-import { useSelector } from 'react-redux';
+import React, { memo, useCallback, useEffect, useRef, useState } from "react";
+import styled from "styled-components";
+import SideBar from "../components/SideBar";
+import { useSelector } from "react-redux";
 // import { toggleBtn } from '../Slices/MapSlice';
-import arrowL from '../asset/img/left.png';
-import arrowR from '../asset/img/right.png';
+import arrowL from "../asset/img/left.png";
+import arrowR from "../asset/img/right.png";
 
 const MapCss = styled.div`
   display: flex;
@@ -46,6 +46,12 @@ const MapCss = styled.div`
         text-indent: -99999px;
       }
     }
+    .moveMapBtn {
+      width: 100px;
+      height: 100px;
+      background-color: #0280e0;
+      z-index: 99;
+    }
   }
 `;
 const { kakao } = window;
@@ -59,44 +65,55 @@ const Map = () => {
   const [button, setButton] = useState(true);
 
   // 버튼 클릭시 boolean 값 변경
-  const onClick = useCallback(e => {
-    setButton(button => !button)
-  }, [])
+  const onClick = useCallback((e) => {
+    setButton((button) => !button);
+  }, []);
 
   useEffect(() => {
     // 지도를 렌더링할 영역을 ref로 뽑아 변수에 담기
     const container = myMap.current;
 
-    // 지도 생성 시 옵션 (위치, 지도 확대 레벨)
+    const dft = new kakao.maps.LatLng(37.5026, 127.0249);
+
+    // 지도 생성 옵션 (위치, 지도 확대 레벨, 키보드로 확대(+)와 축소(-))
     const options = {
-      center: new kakao.maps.LatLng(37.5026, 127.0249),
-      level: 3,
-      // tileAnimation: true,
+      center: dft,
+      level: 4,
+      keyboardShortcuts: true,
+      MaxLevel: 10
     };
-
-    const map = new kakao.maps.Map(container, options);
-
-    // map에 컨트롤러 추가, 컨트롤러 위치는 오른쪽이다.
+    // 지도 생성
+    var map = new kakao.maps.Map(container, options);
+  
+    // map에 컨트롤러 추가, 컨트롤러 위치는 왼쪽으로.
     const zoomControl = new kakao.maps.ZoomControl();
 
     // 컨트롤러 위치 지정
     map.addControl(zoomControl, kakao.maps.ControlPosition.LEFT);
 
-    // 검색시 마커 생성
+    // 커서 스타일 변경
+    map.setCursor("move");
+
+    // 검색 시 마커 생성
     documents &&
-      documents.map(({ id, x, y }, i) => {
+      documents.map(({ x, y }) => {
         return new kakao.maps.Marker({
           map: map,
           position: new kakao.maps.LatLng(y, x),
         });
       });
 
+    // 검색 시 검색 위치로 지도 범위 재설정
+    let bounds = new kakao.maps.LatLngBounds();  
+    documents &&
+      documents.map(({ x, y }) => {
+        bounds.extend(new kakao.maps.LatLng(y, x));
+        return map.setBounds(bounds);
+      });
     // 레이아웃 재설정
     if (button === false) map.relayout();
 
   }, [button, documents]);
-
-
 
   return (
     <div>
@@ -105,8 +122,13 @@ const Map = () => {
 
         <div className="map" ref={myMap}>
           <button className="sideBtn" onClick={onClick}>
-            {button && button ? <span className="left">left</span> : <span className="right">right</span>}
+            {button && button ? (
+              <span className="left">left</span>
+            ) : (
+              <span className="right">right</span>
+            )}
           </button>
+          {/* <button className="moveMapBtn">이동하기</button> */}
         </div>
       </MapCss>
     </div>
