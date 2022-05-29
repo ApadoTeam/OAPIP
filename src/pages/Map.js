@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import SideBar from '../components/SideBar';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 // import { toggleBtn } from '../Slices/MapSlice';
 import arrowL from '../asset/img/left.png';
 import arrowR from '../asset/img/right.png';
@@ -51,12 +51,7 @@ const MapCss = styled.div`
 const { kakao } = window;
 
 const Map = () => {
-  const { meta, documents, error } = useSelector((state) => state.map);
-
-  // 토글 기능
-  // const { toggle } = useSelector((state) => state.map);
-
-  const dispatch = useDispatch();
+  const { documents } = useSelector((state) => state.map);
 
   const myMap = useRef();
 

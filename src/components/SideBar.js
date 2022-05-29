@@ -9,7 +9,7 @@ import Spinner from './Spinner';
 import ryan from '../asset/img/ryan.png';
 
 const SideBarCss = styled.div`
-  width: 25vw;
+  width: 20vw;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -18,44 +18,56 @@ const SideBarCss = styled.div`
 
   .menuArea {
     width: 100%;
-    min-height: 20vh;
+    min-height: 15vh;
     background-color: #0280e0;
     display: flex;
     border-bottom: 1px solid #04c1de;
-
+    position: sticky;
+    top: 0%;
     .form {
       width: 80%;
-      height: 46px;
+      height: 50px;
       display: flex;
       margin: auto auto;
       background-color: white;
       border-radius: 5px;
-
       input {
-        width: 100%;
+        width: 85%;
         height: 36px;
         outline: none;
-        padding-left: 15px;
-        font-size: 15px;
-        margin: auto auto;
+        padding-left: 20px;
+        font-size: 18px;
+        margin: auto 0;
       }
-
       button {
-        width: 36px;
-        height: 36px;
+        width: 46px;
+        height: 46px;
         cursor: pointer;
         font-size: 15px;
         font-weight: bold;
         color: #333;
         background: url(${searchIcon}) no-repeat;
-        background-position: -2px -118px;
+        background-position: 7px -114px;
         margin: auto auto;
         border: 0;
-
         &:hover {
-          background-position: -42px -118px;
+          background-position: -33px -114px;
         }
       }
+    }
+  }
+  .errorArea {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    top: 15%;
+    .ryan {
+      width: 10vw;
+    }
+    p {
+      font-size: 1.2vw;
+      font-weight: bold;
     }
   }
 
@@ -64,48 +76,26 @@ const SideBarCss = styled.div`
     height: 100vh;
     display: flex;
     flex-direction: column;
-    .list {
+    ul {
       display: inline-block;
       width: 100%;
       height: 100%;
       background-color: aliceblue;
       border-top: 1px solid #ccc;
+      padding-left: 15px;
       &:first-child {
         border-top: 0;
+      }
+      li {
+        line-height: 30px;
       }
     }
   }
 `;
 
-const ErrorMessage = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  top: 10%;
-
-  img {
-    width: 15vw;
-  }
-
-  p {
-    font-size: 1.2vw;
-    font-weight: bold;
-  }
-`;
-
 const SideBar = memo(({ button }) => {
 
-  const side = useRef();
-  // const { toggle } = useSelector((state) => state.map);
-
-  // useEffect(() => {
-  //   toggle === +false ? (side.current.style.width = '0') : (side.current.style.width = '25vw');
-  // }, [toggle]);
-
-  
-
-  const { meta, documents, loading, error } = useSelector((state) => state.map);
+  const { documents, loading, error } = useSelector((state) => state.map);
 
   const dispatch = useDispatch();
 
@@ -145,23 +135,23 @@ const SideBar = memo(({ button }) => {
     <div>
       <Spinner visible={loading} />
 
-      {button && <SideBarCss ref={side}>
+      {button && <SideBarCss>
         <div className="menuArea">
           <form className="form">
             <input type="text" name="search" placeholder="키워드로 검색" value={inputValue} onChange={onChange} />
             <button type="submit" onClick={onClick} />
           </form>
         </div>
-
+        <div className='listArea'>
         {error ? (
-          <ErrorMessage>
-            <img src={ryan} alt='ryan' />
-            <p>검색할 키워드를 입력해주세요</p>
-          </ErrorMessage>
+          <div className='errorArea'>
+            <img src={ryan} alt='ryan' className='ryan' />
+            <p><strong>검색할 키워드를 입력해주세요</strong></p>
+          </div>
         ) : documents ? (
           documents.map((v,i) => {
             return (
-              <ul key={v.id} style={{borderBottom: '1px solid #000', lineHeight: '1.5'}}>
+              <ul key={v.id}>
                 {/* <li>{v.id}</li> */}
                 <li>{v.place_name}</li>
                 {/* <li>{v.category_group_name}</li> */}
@@ -175,6 +165,7 @@ const SideBar = memo(({ button }) => {
         ) : (
           <p>검색결과가 없습니다.</p>
         )}
+        </div>
       </SideBarCss>}
     </div>
   );

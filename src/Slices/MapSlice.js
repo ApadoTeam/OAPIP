@@ -26,25 +26,13 @@ export const getMapInfo = createAsyncThunk('map/getMapInfo', async (payload, { r
 const MapSlice = createSlice({
   name: 'map',
   initialState: {
-    toggle: +true,
     meta: null,
     same_name: null,
     documents: null,
     loading: false,
     error: null,
   },
-  
-  reducers: {
-    toggleBtn: (state, action) => {
-      let fls = action.payload;
-      if (state.toggle === +true) {
-        return {toggle: fls};
-      } else {
-        return {toggle: +true}
-      }
-    }
-  },
-
+  reducers: {},
   extraReducers: {
     [getMapInfo.pending]: (state, { payload }) => {
       return { ...state, loading: true }
@@ -64,7 +52,6 @@ const MapSlice = createSlice({
         same_name: null,
         documents: null,
         loading: false,
-        toggle: +true,
         error: {
           code: payload?.status ? payload.status : 500,
           message: payload?.statusText ? payload.statusText : 'Server Error'
@@ -73,7 +60,5 @@ const MapSlice = createSlice({
     }
   },
 });
-
-export const { toggleBtn } = MapSlice.actions;
 
 export default MapSlice.reducer;
