@@ -69,6 +69,18 @@ const Map = () => {
     setButton((button) => !button);
   }, []);
 
+  // 자식인 side에서 받아올 위치 state
+  const [loc, setLoc] = useState([]);
+
+  // 자식으로 내려보낼 함수
+  const maps = useCallback(
+    (location) => {
+      setLoc(location);
+      console.log(loc[0], loc[1]);
+    },
+    [loc]
+  );
+
   useEffect(() => {
     // 지도를 렌더링할 영역을 ref로 뽑아 변수에 담기
     const container = myMap.current;
@@ -80,11 +92,11 @@ const Map = () => {
       center: dft,
       level: 4,
       keyboardShortcuts: true,
-      MaxLevel: 10
+      MaxLevel: 10,
     };
     // 지도 생성
     var map = new kakao.maps.Map(container, options);
-  
+
     // map에 컨트롤러 추가, 컨트롤러 위치는 왼쪽으로.
     const zoomControl = new kakao.maps.ZoomControl();
 
@@ -103,22 +115,26 @@ const Map = () => {
         });
       });
 
-    // 검색 시 검색 위치로 지도 범위 재설정
-    let bounds = new kakao.maps.LatLngBounds();  
+    // 검색된 목록 클릭 시, 검색 시 해당 위치로 지도 범위 재설정
+
+    let bounds = new kakao.maps.LatLngBounds();
     documents &&
       documents.map(({ x, y }) => {
-        bounds.extend(new kakao.maps.LatLng(y, x));
-        return map.setBounds(bounds);
+        bounds.extend(new kakao.maps.LatLng({y, x} || loc[0], loc[1]));
+        let locMove = new kakao.maps.LatLng(loc[0], loc[1]);
+        return (map.setBounds(bounds), map.panTo(locMove));;
       });
+      
     // 레이아웃 재설정
     if (button === false) map.relayout();
 
-  }, [button, documents]);
+    console.log(loc);
+  }, [button, documents, loc]);
 
   return (
     <div>
       <MapCss>
-        <SideBar button={button} />
+        <SideBar button={button} maps={maps} />
 
         <div className="map" ref={myMap}>
           <button className="sideBtn" onClick={onClick}>
