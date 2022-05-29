@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState, useCallback, useRef } from 'react';
+import React, { memo, useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
@@ -56,6 +56,7 @@ const SideBarCss = styled.div`
       }
     }
   }
+
   .errorArea {
     position: relative;
     display: flex;
