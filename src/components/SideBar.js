@@ -1,3 +1,9 @@
+/**
+ * @file: Sidebar.js
+ * @description: 카카오로컬 APi활용 검색 시 정보 구현
+ * @author: 박찬우, 천경재
+ */
+
 import React, { memo, useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';

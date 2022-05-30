@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
 
+// data.json(유저 정보) 파일로 비동기 통신
 export const getInfo = createAsyncThunk('userInfo/getInfo', async (payload, { rejectWithValue }) => {
   let result = null;
 

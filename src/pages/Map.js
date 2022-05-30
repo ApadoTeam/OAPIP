@@ -1,3 +1,9 @@
+/**
+ * @file: Map.js
+ * @description: 카카오맵 기능 구현
+ * @author: 박찬우, 천경재
+ */
+
 import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import SideBar from "../components/SideBar";
@@ -59,6 +65,7 @@ const { kakao } = window;
 const Map = () => {
   const { documents } = useSelector((state) => state.map);
 
+  // 지도를 생성할 영역
   const myMap = useRef();
 
   // 버튼 토글
@@ -69,10 +76,10 @@ const Map = () => {
     setButton((button) => !button);
   }, []);
 
-  // 자식인 side에서 받아올 위치 state
+  // 자식 컴포넌트인 side에서 받아올 위치 state
   const [loc, setLoc] = useState();
 
-  // 자식으로 내려보낼 함수
+  // 자식 컴포넌트에서 값을 전달 받기 위해 내려보낼 함수
   const maps = (location) => {
     setLoc(location);
   };
@@ -81,6 +88,7 @@ const Map = () => {
     // 지도를 렌더링할 영역을 ref로 뽑아 변수에 담기
     const container = myMap.current;
 
+    // 처음 지도가 생설될 중심 좌표 (이젠 강남점)
     const dft = new kakao.maps.LatLng(37.5026, 127.0249);
 
     // 지도 생성 옵션 (위치, 지도 확대 레벨, 키보드로 확대(+)와 축소(-))
@@ -93,16 +101,16 @@ const Map = () => {
     // 지도 생성
     var map = new kakao.maps.Map(container, options);
 
-    // map에 컨트롤러 추가, 컨트롤러 위치는 왼쪽으로.
+    // 지도에 컨트롤러 추가
     const zoomControl = new kakao.maps.ZoomControl();
 
-    // 컨트롤러 위치 지정
+    // 컨트롤러 위치 왼쪽 상단 지정
     map.addControl(zoomControl, kakao.maps.ControlPosition.LEFT);
 
-    // 커서 스타일 변경
+    // 지도상 표시될 커서 스타일 변경
     map.setCursor("move");
 
-    // 검색 시 마커 생성
+    // 검색 시 키워드와 일치하는 장소에 마커 생성
     documents &&
       documents.map(({ x, y }) => {
         return new kakao.maps.Marker({
@@ -111,30 +119,23 @@ const Map = () => {
         });
       });
 
-    // 검색 시 검색 위치로 지도 범위 재설정
-
-    // documents &&
-    //   documents.map(({ x, y }) => {
-    //     let bounds = new kakao.maps.LatLngBounds();
-    //     bounds.extend(new kakao.maps.LatLng(y, x));
-    //     return map.setBounds(bounds);
-    //   });
+    // 검색 시 검색한 위치로 지도 범위 재설정(이동)
     if (documents) {
       documents.forEach(({ y, x }) => {
         let bounds = new kakao.maps.LatLngBounds();
         map.setBounds(bounds.extend(new kakao.maps.LatLng(y, x)));
       });
     }
-    // // 검색된 목록 클릭 시 위치 이동
-    // if (loc) {
-    //   let locBounds = new kakao.maps.LatLngBounds();
-    //   let locLatLng = new kakao.maps.LatLng(loc[0], loc[1]);
-    //   locBounds.extend(locLatLng);
-    //   map.setBounds(locBounds);
-    //   map.panTo(locLatLng);
-    // }
+    // 검색된 목록 클릭 시 위치 이동
+    if (loc) {
+      let locBounds = new kakao.maps.LatLngBounds();
+      let locLatLng = new kakao.maps.LatLng(loc[0], loc[1]);
+      locBounds.extend(locLatLng);
+      map.setBounds(locBounds);
+      map.panTo(locLatLng);
+    }
 
-    // 레이아웃 재설정
+    // 사이드바 토글 시 화면 지도 재출력
     if (button === false) map.relayout();
   }, [button, documents, loc]);
 
@@ -142,16 +143,15 @@ const Map = () => {
     <div>
       <MapCss>
         <SideBar button={button} maps={maps} />
-
         <div className="map" ref={myMap}>
           <button className="sideBtn" onClick={onClick}>
+            {/* 사이드바 버튼 클릭 시 이미지 토글 */}
             {button && button ? (
               <span className="left">left</span>
             ) : (
               <span className="right">right</span>
             )}
           </button>
-          {/* <button className="moveMapBtn">이동하기</button> */}
         </div>
       </MapCss>
     </div>

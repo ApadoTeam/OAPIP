@@ -137,7 +137,7 @@ const Login = memo(() => {
   // 페이지 이동 hook
   const navigate = useNavigate();
 
-  // 입력 시 유효성 검사
+  // formik,Yup 사용으로 유효성 검사와 이벤트 처리
   const formik = useFormik({
     initialValues: {
       id: "",
@@ -157,7 +157,7 @@ const Login = memo(() => {
           "8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요."
         )
     }),
-    // 로그인 버튼 클릭 시 발생 이벤트
+    // 로그인 버튼 클릭 시 서버값과 입력값 비교 후 로그인 처리
     onSubmit: (values) => {
       let compare = (data.find((d) => {
         return d.id === values.id;
@@ -172,8 +172,6 @@ const Login = memo(() => {
       }
     }
   });
-
-
 
   return (
     <LoginCss>
@@ -190,7 +188,7 @@ const Login = memo(() => {
         <div className="loginBox" >
           <div className="inputBox">
             <label htmlFor="id"><strong>아이디</strong></label>
-            {/* formik은 name 값을 활용하며, onBlur...Cahge,submit 등 이벤트들은 {...formik.getFieldProps("name값")}로 묶어주면 자동으로 기능한다. */}
+            {/* formik은 name 값을 활용하며, onBlur...Cahge,submit 등 이벤트들은 {...formik.getFieldProps("name값")}로 묶어주면 알맞게 기능한다. */}
             {/* <input type='text' id='id' name='id' onBlur={formik.handleBlur} onChange={formik.handleChange} /> */}
             <input className="input" type="text" id="id" name="id" {...formik.getFieldProps("id")} placeholder="아이디를 입력해주세요." />
             {formik.touched.id && (<span className="alert">{formik.errors.id}</span>)}

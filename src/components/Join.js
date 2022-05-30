@@ -124,7 +124,7 @@ const JoinCss = styled.div`
 `;
 
 const Join = memo(() => {
-  // React.useEffect(() => console.clear(), []);
+  React.useEffect(() => console.clear(), []);
 
   const { data } = useSelector((state) => state.userInfo);
   const dispatch = useDispatch();
@@ -143,8 +143,8 @@ const Join = memo(() => {
     },
     { manual: true }
   );
-    // console.log(data);
 
+  // formik,Yup 사용으로 유효성 검사와 이벤트 처리
   const formik = useFormik({
     initialValues: {
       id: "",
@@ -152,9 +152,12 @@ const Join = memo(() => {
       pwCfm: "",
       email: "",
     },
+    /** required - 경고메세지
+     *  matches - 사용자 지정 유효성 검사
+     */
     validationSchema: Yup.object({
       id: Yup.string()
-        .required("필수 정보입니다.")
+        .required("필수 정보입니다.") 
         .matches(/^[a-z0-9_-]{5,15}$/, "5~15자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다."),
       pw: Yup.string()
         .required("필수 정보입니다.")
@@ -166,6 +169,8 @@ const Join = memo(() => {
         .required("필수 정보입니다.")
         .matches(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/, "이메일 주소를 다시 확인해주세요."),
     }),
+
+    // 가입하기를 눌렀을 때 서버값과 입력값을 비교 후 회원가입 처리
     onSubmit: (values) => {
       if (data.id !== values.id) {
         if (data.email !== values.email) {
@@ -212,7 +217,11 @@ const Join = memo(() => {
         <div className="loginBox">
           <div className="inputBox">
             <label htmlFor="id"><strong>아이디</strong></label>
+            
+            {/* onclick, onBlur, onChange 등을 {...formik.getFieldProps("id")} 사용하면 묶음으로 사용가능, name 값을 활용하여 알맞게 처리  */}
             <input className="input" type="text" id="id" name="id" {...formik.getFieldProps("id")} placeholder="아이디를 입력해주세요." />
+            
+            {/* touched.name값은 focus를 추적 해 준다. */}
             {formik.touched.id && (<span className="alert">{formik.errors.id}</span>)}
           </div>
           <div className="inputBox">
