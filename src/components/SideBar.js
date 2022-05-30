@@ -104,7 +104,7 @@ const SideBarCss = styled.div`
         margin-bottom: 15px;
         &:nth-child(1) {
           font-size: 1vw;
-          background: url(${moveloc2}) no-repeat;
+          background: url(${moveloc}) no-repeat;
           background-size: 100% 100%;
           text-indent: -9999px;
           padding-left: 0;
@@ -114,7 +114,7 @@ const SideBarCss = styled.div`
             width: 100%;
           }
           &:hover {
-            background: url(${moveloc}) no-repeat;
+            background: url(${moveloc2}) no-repeat;
           background-size: 100% 100%;
           }
         }

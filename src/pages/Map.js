@@ -121,9 +121,9 @@ const Map = () => {
 
     // 검색 시 검색한 위치로 지도 범위 재설정(이동)
     if (documents) {
-      documents.forEach(({ y, x }) => {
+      documents.map(({ y, x }) => {
         let bounds = new kakao.maps.LatLngBounds();
-        map.setBounds(bounds.extend(new kakao.maps.LatLng(y, x)));
+        return map.setBounds(bounds.extend(new kakao.maps.LatLng(y, x)));
       });
     }
     // 검색된 목록 클릭 시 위치 이동
