@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
 
 
-// 카카오 로컬 API URL과 KEY값으로 비동기 통신 사용.
+// 카카오 로컬 API URL과 KEY값으로 비동기 통신 
 const API_URL = 'https://dapi.kakao.com/v2/local/search/keyword.json';
 const API_KEY = 'bb10b2a5cc7da58fb075c6b428ff9ed1';
 
