@@ -4,7 +4,7 @@ import axios from 'axios';
 
 // 카카오 로컬 API URL과 KEY값으로 비동기 통신 
 const API_URL = 'https://dapi.kakao.com/v2/local/search/keyword.json';
-const API_KEY = 'bb10b2a5cc7da58fb075c6b428ff9ed1';
+const API_KEY = '8dd322609444f19d7248550cf5fba7a2';
 
 export const getMapInfo = createAsyncThunk('map/getMapInfo', async (payload, { rejectWithValue }) => {
   let result = null;
