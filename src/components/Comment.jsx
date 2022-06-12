@@ -1,5 +1,5 @@
 /**
- * @file: Comment.js
+ * @file: Comment.jsx
  * @description: 댓글의 입력 수정 삭제 조회 기능 구현
  * @author: 박찬우
  */

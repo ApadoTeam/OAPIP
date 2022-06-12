@@ -1,5 +1,5 @@
 /**
- * @file: Login.js
+ * @file: Login.jsx
  * @description: 로그인 기능 구현
  * @author: 천경재
  */

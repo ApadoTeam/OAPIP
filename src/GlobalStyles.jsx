@@ -1,5 +1,5 @@
 /**
- * @filename: GlobalStyles.js
+ * @filename: GlobalStyles.jsx
  * @description: 전역으로 적용될 기본 스타일시트
  * @author: 천경재
  */

@@ -1,5 +1,5 @@
 /**
- * @file: Map.js
+ * @file: Map.jsx
  * @description: 카카오맵 기능 구현
  * @author: 박찬우, 천경재
  */

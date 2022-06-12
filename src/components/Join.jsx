@@ -1,5 +1,5 @@
 /**
- * @file: Join.js
+ * @file: Join.jsx
  * @description: 회원가입 기능 구현
  * @author: 천경재
  */
