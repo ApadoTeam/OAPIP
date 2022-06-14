@@ -187,17 +187,14 @@ const Join = memo(() => {
               json = response.data;
             } catch (e) {
               console.error(e);
+              window.alert("이미 사용중인 아이디 혹은 이메일 입니다.");
             }
             if (json !== null) {
               window.alert("회원가입이 완료 되었습니다..");
               navigate("/", { replace: true });
             }
           })();
-        } else {
-          alert("이미 사용중인 이메일 입니다.");
         }
-      } else {
-        alert("이미 사용중인 아이디 입니다.");
       }
     },
   });
